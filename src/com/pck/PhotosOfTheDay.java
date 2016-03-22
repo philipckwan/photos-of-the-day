@@ -17,83 +17,48 @@ import com.pck.common.PropertiesManager;
 
 public class PhotosOfTheDay {
 	public static final String CONFIG_FILE = "input.txt";
+	public static final String KEYWORD_SOURCE_ROOT = "sourceDirectory";
+	public static final String KEYWORD_DESTINATION_DIRECTORY = "destinationDirectory";
+	public static final String KEYWORD_HOW_MANY_PHOTOS_TO_PICK = "howManyPhotosToPick";
 
 	private static String sourceRoot = null;
 	private static String destinationRoot = null;
-	private static int numPhotosPick = 8;
+	private static String howManyPhotosToPick = null;
 
-	public static final String KEYWORD_SOURCE_ROOT = "sourceRoot";
-	public static final String KEYWORD_DESTINATION_DIRECTORY = "destinationDirectory";
+	private static File dirSourceRoot = null;
+	private static File dirDestinationRoot = null;
+	private static int howManyPhotosToPickInt = 0;
+	private static boolean howManyPhotosToPickIsPercentage = false;
 
-	public static final String MIME_TYPE_NAME = "image/jpeg";
+	private static int numPhotosPick = 1;
 
-	public static void main(String[] args) {
+	private static final String MIME_TYPE_NAME = "image/jpeg";
+	private static final String PERCENTAGE = "%";
+
+	public static void main(String[] args) throws IOException {
 		System.out.println("PhotosOfTheDay.main: START");
 
-		PropertiesManager.initWithFile(CONFIG_FILE);
+		loadPropertiesAndValidate();
 
-		sourceRoot = PropertiesManager.getProperty(KEYWORD_SOURCE_ROOT);
-		destinationRoot = PropertiesManager.getProperty(KEYWORD_DESTINATION_DIRECTORY);
+		//Map<Integer, File> dirMap = new HashMap<Integer, File>();
+		numPhotosPick = howManyPhotosToPickInt;
 
-		System.out.println("sourceRoot: " + sourceRoot + ";");
-		File dirSourceRoot = new File(sourceRoot);
-		File dirDestinationRoot = new File(destinationRoot);
-
-		System.out.println("dir?" + dirSourceRoot.exists());
-		File[] dirFirstLevel = dirSourceRoot.listFiles();
-
-		Map<Integer, File> dirMap = new HashMap<Integer, File>();
-		Integer counter = 0;
-
-		try {
-			if (dirFirstLevel != null) {
-				for (File aDir : dirFirstLevel) {
-					System.out.println("1st level directory: " + aDir.getCanonicalPath());
-					File[] dirSecondLevel = aDir.listFiles();
-					if (dirSecondLevel != null) {
-						for (File bDir : dirSecondLevel) {
-							System.out.println("2nd level directory: " + bDir.getCanonicalPath());
-							counter++;
-							dirMap.put(counter, bDir);
-							// Now, randomly pick one directory
-
-							/*
-							File[] filesThirdLevel = bDir.listFiles();
-							for (File cFile : filesThirdLevel) {
-							
-								ByteArrayInputStream bais = new ByteArrayInputStream(FileUtils.readFileToByteArray(cFile));
-							
-								TikaConfig config = TikaConfig.getDefaultConfig();
-								MediaType mediaType = config.getMimeRepository().detect(bais, new Metadata());
-								MimeType mimeType = config.getMimeRepository().forName(mediaType.toString());
-								String extension = mimeType.getExtension();
-								String name = mimeType.getName();
-							
-								//System.out.println("mtn:" + MIME_TYPE_NAME + ";");
-								if (MIME_TYPE_NAME.equalsIgnoreCase(name)) {
-									System.out.println(
-											"3rd level file: " + cFile.getCanonicalPath() + ";type: " + name + ";");
-								}
-							}
-							*/
-						}
-					}
-				}
-			} else {
-				System.out.println("ERROR: 1st level directory is empty");
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} /*catch (MimeTypeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			}*/
+		Map<Integer, File> dirMap = populateDirectoryMap();
 
 		Integer idxPick = ((int) (Math.random() * dirMap.size())) + 1;
-		System.out.println("dirMap.size:" + dirMap.size() + "; pick:" + idxPick + ";");
+		File directoryPicked = dirMap.get(idxPick);
 
-		File[] filesThirdLevel = dirMap.get(idxPick).listFiles();
+		File[] filesThirdLevel = directoryPicked.listFiles();
+		System.out.println("PhotosOfTheDay.main: directoryPicked:[" + directoryPicked.getName() + "], it has "
+				+ filesThirdLevel.length + " files;");
+
+		/*
+		if (true) {
+			System.out.println("PhotosOfTheDay.main: 1.2");
+			System.exit(0);
+		}
+		*/
+
 		Map<Integer, File> fileMap = new HashMap<Integer, File>();
 		Integer fileMapCounter = 0;
 
@@ -145,6 +110,86 @@ public class PhotosOfTheDay {
 		}
 
 		System.out.println("PhotosOfTheDay.main: END");
+	}
+
+	private static Map<Integer, File> populateDirectoryMap() throws IOException {
+		Map<Integer, File> dirMap = new HashMap<Integer, File>();
+
+		File[] dirFirstLevel = dirSourceRoot.listFiles();
+		Integer counter = 0;
+
+		if (dirFirstLevel != null) {
+			for (File aDir : dirFirstLevel) {
+				//System.out.println("1st level directory: " + aDir.getCanonicalPath());
+				File[] dirSecondLevel = aDir.listFiles();
+				if (dirSecondLevel != null) {
+					for (File bDir : dirSecondLevel) {
+						//System.out.println("2nd level directory: " + bDir.getCanonicalPath());
+						counter++;
+						dirMap.put(counter, bDir);
+					}
+				}
+			}
+		} else {
+			System.out.println("populateDirectoryMap: ERROR - 1st level directory is empty");
+		}
+
+		return dirMap;
+	}
+
+	private static void loadPropertiesAndValidate() throws IOException {
+		PropertiesManager.initWithFile(CONFIG_FILE);
+
+		sourceRoot = PropertiesManager.getProperty(KEYWORD_SOURCE_ROOT);
+		destinationRoot = PropertiesManager.getProperty(KEYWORD_DESTINATION_DIRECTORY);
+		howManyPhotosToPick = PropertiesManager.getProperty(KEYWORD_HOW_MANY_PHOTOS_TO_PICK);
+
+		dirSourceRoot = new File(sourceRoot);
+		// validate the source directory
+		if (!dirSourceRoot.isDirectory()) {
+			System.out.println("ERROR - sourceDirectory is invalid!");
+			System.exit(0);
+		} else {
+			System.out.println("sourceDirectory: " + dirSourceRoot.getCanonicalPath() + ";");
+		}
+
+		dirDestinationRoot = new File(destinationRoot);
+		// validate the destination directory
+		if (!dirDestinationRoot.isDirectory()) {
+			System.out.println("ERROR - destinationDirectory is invalid!");
+			System.exit(0);
+		} else {
+			System.out.println("destinationDirectory: " + dirDestinationRoot.getCanonicalPath() + ";");
+		}
+
+		// validate the number of photos to pick
+		boolean howManyPhotosToPickError = false;
+		if (howManyPhotosToPick != null) {
+			try {
+				if (PERCENTAGE.equals(String.valueOf(howManyPhotosToPick.charAt(howManyPhotosToPick.length() - 1)))) {
+					howManyPhotosToPickIsPercentage = true;
+					howManyPhotosToPickInt = Integer
+							.parseInt(howManyPhotosToPick.substring(0, howManyPhotosToPick.length() - 1));
+				} else {
+					howManyPhotosToPickInt = Integer.parseInt(howManyPhotosToPick);
+				}
+				if (howManyPhotosToPickInt < 1) {
+					howManyPhotosToPickError = true;
+				}
+			} catch (NumberFormatException nfe) {
+				howManyPhotosToPickError = true;
+			}
+		} else {
+			howManyPhotosToPickError = true;
+		}
+
+		if (howManyPhotosToPickError) {
+			System.out.println("ERROR - howManyPhotosToPick is invalid!");
+			System.exit(0);
+		} else {
+			System.out.println("howManyPhotosToPickInt:" + howManyPhotosToPickInt + "; isPercent? "
+					+ howManyPhotosToPickIsPercentage + ";");
+		}
 	}
 
 }
