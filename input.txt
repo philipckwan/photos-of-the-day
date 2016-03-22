@@ -1,0 +1,3 @@
+sourceRoot=C:\\Users\\Philip\\Desktop\\photos_tmp\\test
+destinationDirectory=C:\\Users\\Philip\\Desktop\\photos_tmp\\destination
+//sourceRoot=C:\\tools\\eclipse-mars

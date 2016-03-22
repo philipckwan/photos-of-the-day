@@ -1,0 +1,10 @@
+-generate the summary file
+-pick numbers as well as percentage
+-refactor to functions
+-readme file to show usage
+-after 2nd level directory pick, check to see if there are image files first before going to next stage
+-optimize the case if pick number or percentage is high enough (i.e. pick number == number of files), 
+ then should not use random pick because this will very long to complete
+-build in some smartness:
+ -track history picks to avoid picking the same album
+ -take user preference to lean towards certain directory (e.g. 1st level: I want to see something in year 2000 to 2004)
