@@ -10,6 +10,7 @@
  -consider have a staging directory for approval before send out 
 -optimize the case if pick number or percentage is high enough (i.e. pick number == number of files), 
  then should not use random pick because this will very long to complete
+ -should simply just leverage the File[] to pick the files, instead of putting it into a map
 
 -build in some smartness:
  -track history picks to avoid picking the same album
@@ -18,3 +19,7 @@
  -error checking
   -validate source and destination directories
   
+-readme contents
+ -motivates me to better organize my picture
+ -motivates me to delete bad pictures
+ -motivates me to take better pictures ;-P

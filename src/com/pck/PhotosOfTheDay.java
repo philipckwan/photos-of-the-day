@@ -47,10 +47,10 @@ public class PhotosOfTheDay {
 
 		Integer idxPick = ((int) (Math.random() * dirMap.size())) + 1;
 		File directoryPicked = dirMap.get(idxPick);
-
+		
 		File[] filesThirdLevel = directoryPicked.listFiles();
-		System.out.println("PhotosOfTheDay.main: directoryPicked:[" + directoryPicked.getName() + "], it has "
-				+ filesThirdLevel.length + " files;");
+		System.out.println("PhotosOfTheDay.main: directoryPicked:[" + directoryPicked.getName() + "]");
+		System.out.println(" it has " + filesThirdLevel.length + " files;");
 
 		/*
 		if (true) {
@@ -73,7 +73,7 @@ public class PhotosOfTheDay {
 				String name = mimeType.getName();
 
 				if (MIME_TYPE_NAME.equalsIgnoreCase(name)) {
-					System.out.println("3rd level file: " + cFile.getCanonicalPath() + ";type: " + name + ";");
+					//System.out.println("3rd level file: " + cFile.getCanonicalPath() + ";type: " + name + ";");
 					fileMapCounter++;
 					fileMap.put(fileMapCounter, cFile);
 				}
@@ -120,11 +120,17 @@ public class PhotosOfTheDay {
 
 		if (dirFirstLevel != null) {
 			for (File aDir : dirFirstLevel) {
+				if (!aDir.isDirectory()) {
+					continue;
+				}
 				//System.out.println("1st level directory: " + aDir.getCanonicalPath());
 				File[] dirSecondLevel = aDir.listFiles();
 				if (dirSecondLevel != null) {
 					for (File bDir : dirSecondLevel) {
 						//System.out.println("2nd level directory: " + bDir.getCanonicalPath());
+						if (!bDir.isDirectory()) {
+							continue;
+						}
 						counter++;
 						dirMap.put(counter, bDir);
 					}
