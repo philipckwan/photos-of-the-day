@@ -3,8 +3,12 @@ package com.pck;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.tika.config.TikaConfig;
@@ -40,6 +44,12 @@ public class PhotosOfTheDay {
 
 		loadPropertiesAndValidate();
 
+		// TODO - should we support percentage?
+		if (howManyPhotosToPickIsPercentage) {
+			System.out.println("PhotosOfTheDay currently does not support percentage value for 'howManyPhotosToPick'");
+			System.exit(0);
+		}
+
 		//Map<Integer, File> dirMap = new HashMap<Integer, File>();
 		numPhotosPick = howManyPhotosToPickInt;
 
@@ -47,10 +57,14 @@ public class PhotosOfTheDay {
 
 		Integer idxPick = ((int) (Math.random() * dirMap.size())) + 1;
 		File directoryPicked = dirMap.get(idxPick);
-		
-		File[] filesThirdLevel = directoryPicked.listFiles();
+
+		//File[] filesThirdLevel = directoryPicked.listFiles();
 		System.out.println("PhotosOfTheDay.main: directoryPicked:[" + directoryPicked.getName() + "]");
-		System.out.println(" it has " + filesThirdLevel.length + " files;");
+		//System.out.println(" it has " + filesThirdLevel.length + " files;");
+
+		List<File> fileList = new LinkedList<File>(Arrays.asList(directoryPicked.listFiles()));
+		System.out.println("__fileList.size:" + fileList.size() + ";");
+		Random rand = new Random();
 
 		/*
 		if (true) {
@@ -59,10 +73,10 @@ public class PhotosOfTheDay {
 		}
 		*/
 
-		Map<Integer, File> fileMap = new HashMap<Integer, File>();
-		Integer fileMapCounter = 0;
+		//Map<Integer, File> fileMap = new HashMap<Integer, File>();
+		//Integer fileMapCounter = 0;
 
-		for (File cFile : filesThirdLevel) {
+		for (File cFile : fileList) {
 
 			ByteArrayInputStream bais;
 			try {
@@ -72,10 +86,8 @@ public class PhotosOfTheDay {
 				MimeType mimeType = config.getMimeRepository().forName(mediaType.toString());
 				String name = mimeType.getName();
 
-				if (MIME_TYPE_NAME.equalsIgnoreCase(name)) {
-					//System.out.println("3rd level file: " + cFile.getCanonicalPath() + ";type: " + name + ";");
-					fileMapCounter++;
-					fileMap.put(fileMapCounter, cFile);
+				if (!MIME_TYPE_NAME.equalsIgnoreCase(name)) {
+					fileList.remove(cFile);
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -87,26 +99,25 @@ public class PhotosOfTheDay {
 
 		}
 
-		System.out.println("fileMap.size:" + fileMap.size() + "; numPhotosPick:" + numPhotosPick + ";");
-		if (numPhotosPick > fileMap.size()) {
-			numPhotosPick = fileMap.size();
+		System.out.println("(new) fileList.size:" + fileList.size() + "; numPhotosPick:" + numPhotosPick + ";");
+		if (numPhotosPick > fileList.size()) {
+			numPhotosPick = fileList.size();
 		}
-		int totalSize = fileMap.size();
+		int totalSize = fileList.size();
 
 		for (int numPhotosPicked = 0; numPhotosPicked < numPhotosPick; numPhotosPicked++) {
-			Integer idxFilePick = ((int) (Math.random() * totalSize)) + 1;
-			System.out.println("idxFilePick:" + idxFilePick + ";");
-			File filePicked = fileMap.remove(idxFilePick);
-			if (filePicked == null) {
-				numPhotosPicked--;
-			} else {
-				try {
-					FileUtils.copyFileToDirectory(filePicked, dirDestinationRoot);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			//File filePicked = fileMap.remove(idxFilePick);
+			int idxPicked = rand.nextInt(fileList.size());
+			File filePicked = fileList.remove(idxPicked);
+			System.out.println("run:" + numPhotosPicked + "; picked:" + filePicked.getName() + "; list.size:"
+					+ fileList.size() + ";");
+			try {
+				FileUtils.copyFileToDirectory(filePicked, dirDestinationRoot);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+
 		}
 
 		System.out.println("PhotosOfTheDay.main: END");
