@@ -1,3 +1,6 @@
+issues:
+-seems to occasionally run into ConcurrentModificationException
+
 -generate the summary file
 -pick numbers as well as percentage
 -refactor to functions
@@ -12,6 +15,8 @@ v-optimize the case if pick number or percentage is high enough (i.e. pick numbe
  then should not use random pick because this will very long to complete
  v-should simply just leverage the File[] to pick the files, instead of putting it into a map
  v-now convert the File[] to LinkedList<File>, and use the remove(random) to get the files
+-my current photo archive is skewed having many folders at the older years (2004-2010), so they are always picked
+ -how to balance this better? more folders vs more pictures in a folder (i.e. recent ones that are unorganized)
 
 -build in some smartness:
  -track history picks to avoid picking the same album

@@ -127,9 +127,11 @@ public class PhotosOfTheDay {
 		Map<Integer, File> dirMap = new HashMap<Integer, File>();
 
 		File[] dirFirstLevel = dirSourceRoot.listFiles();
+		
 		Integer counter = 0;
 
 		if (dirFirstLevel != null) {
+			System.out.println("__1st level directory size:" + dirFirstLevel.length + ";");
 			for (File aDir : dirFirstLevel) {
 				if (!aDir.isDirectory()) {
 					continue;
@@ -151,6 +153,7 @@ public class PhotosOfTheDay {
 			System.out.println("populateDirectoryMap: ERROR - 1st level directory is empty");
 		}
 
+		System.out.println("__dirMap.size:" + dirMap.size() + ";");
 		return dirMap;
 	}
 
