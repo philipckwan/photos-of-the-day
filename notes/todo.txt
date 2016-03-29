@@ -2,6 +2,8 @@ issues:
 -seems to occasionally run into ConcurrentModificationException
 
 -generate the summary file
+ -email template
+ -some statistics (e.g. number of picks / number of total files in folder -> percentage)
 -pick numbers as well as percentage
 -refactor to functions
 -readme file to show usage
@@ -21,6 +23,7 @@ v-optimize the case if pick number or percentage is high enough (i.e. pick numbe
 -build in some smartness:
  -track history picks to avoid picking the same album
  -take user preference to lean towards certain directory (e.g. 1st level: I want to see something in year 2000 to 2004)
+ -consider a chat agent (could be HTTP REST based as a start) to interact with to give directions and get properties
  
  -error checking
   -validate source and destination directories
