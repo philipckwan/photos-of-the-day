@@ -3,6 +3,8 @@ package com.pck;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class EmailTemplate {
 
@@ -13,6 +15,8 @@ public class EmailTemplate {
 		String filepath = destinationDirectory.getCanonicalPath() + File.separator + filename;
 		System.out.println("EmailTemplate.writeToFile: filepath:" + filepath + ";");
 		try (PrintWriter out = new PrintWriter(filepath)) {
+			out.println("Photos of the Day - " + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+			out.println();
 			out.println("<insert Dropbox link here>");
 			out.println();
 			out.println(
