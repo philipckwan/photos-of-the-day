@@ -1,11 +1,13 @@
-issues:
--seems to occasionally run into ConcurrentModificationException
+--------------------------
+Issues:
 
--generate the summary file
- -email template
- -some statistics (e.g. number of picks / number of total files in folder -> percentage)
+
+
+--------------------------
+Enhancements, thoughts:
+
 -pick numbers as well as percentage
--refactor to functions
+
 -readme file to show usage
 -after 2nd level directory pick, check to see if there are image files first before going to next stage
 -if load to dropbox folder, consider delete the previous directory 
@@ -13,10 +15,7 @@ issues:
   -remove the previous directory
   -create a new directory for today's run
  -consider have a staging directory for approval before send out 
-v-optimize the case if pick number or percentage is high enough (i.e. pick number == number of files), 
- then should not use random pick because this will very long to complete
- v-should simply just leverage the File[] to pick the files, instead of putting it into a map
- v-now convert the File[] to LinkedList<File>, and use the remove(random) to get the files
+
 -my current photo archive is skewed having many folders at the older years (2004-2010), so they are always picked
  -how to balance this better? more folders vs more pictures in a folder (i.e. recent ones that are unorganized)
 
@@ -32,3 +31,21 @@ v-optimize the case if pick number or percentage is high enough (i.e. pick numbe
  -motivates me to better organize my picture
  -motivates me to delete bad pictures
  -motivates me to take better pictures ;-P
+ 
+-------------------------- 
+DONE:
+v-generate the summary file
+ v-email template
+ v-some statistics (e.g. number of picks / number of total files in folder -> percentage)
+v-FIXED-seems to occasionally run into ConcurrentModificationException
+PhotosOfTheDay.main: directoryPicked:[20080927-kenneth farewell]
+__fileList.size (before filtering):98;
+Exception in thread "main" java.util.ConcurrentModificationException
+	at java.util.LinkedList$ListItr.checkForComodification(LinkedList.java:966)
+	at java.util.LinkedList$ListItr.next(LinkedList.java:888)
+	at com.pck.PhotosOfTheDay.main(PhotosOfTheDay.java:61)
+v-refactor to functions
+v-optimize the case if pick number or percentage is high enough (i.e. pick number == number of files), 
+ then should not use random pick because this will very long to complete
+ v-should simply just leverage the File[] to pick the files, instead of putting it into a map
+ v-now convert the File[] to LinkedList<File>, and use the remove(random) to get the files
