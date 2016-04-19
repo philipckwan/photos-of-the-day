@@ -3,6 +3,24 @@ Issues:
 -fail for this directory: D:\desktop_backups\all\_B01_my_album_new\2004_to_2009-work_US\20090612-from doris camera
  -because it only contains 2 sub-directories
 
+-fail
+[1178], file:philip_proposal;
+remove:philip_proposal;
+java.io.IOException: File '/Volumes/WD_1TB/desktop_backups/all/_B01_my_album_new/2004_to_2009-work_US/20100807-puerto rico/philip_proposal' exists but is a directory
+[1179], file:water_camera;
+remove:water_camera;
+fileList.size (after filtering):1177; numPhotosPick:12;
+run:0; picked:IMG_4590.JPG; list.size:1176;
+	at org.apache.commons.io.FileUtils.openInputStream(FileUtils.java:130)
+	at org.apache.commons.io.FileUtils.readFileToByteArray(FileUtils.java:994)
+	at com.pck.PhotosOfTheDay.main(PhotosOfTheDay.java:74)
+java.io.IOException: File '/Volumes/WD_1TB/desktop_backups/all/_B01_my_album_new/2004_to_2009-work_US/20100807-puerto rico/water_camera' exists but is a directory
+	at org.apache.commons.io.FileUtils.openInputStream(FileUtils.java:130)
+	at org.apache.commons.io.FileUtils.readFileToByteArray(FileUtils.java:994)
+	at com.pck.PhotosOfTheDay.main(PhotosOfTheDay.java:74)
+run:1; picked:IMG_5029.JPG; list.size:1175;
+run:2; picked:IMG_4953.JPG; list.size:1174;
+run:3; picked:IMG_4948.JPG; list.size:1173;
 
 --------------------------
 Enhancements, thoughts:
