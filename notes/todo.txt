@@ -1,14 +1,19 @@
 --------------------------
 Issues:
-
+-fail for this directory: D:\desktop_backups\all\_B01_my_album_new\2004_to_2009-work_US\20090612-from doris camera
+ -because it only contains 2 sub-directories
 
 
 --------------------------
 Enhancements, thoughts:
 
+-maybe instead of relying on the 2 directory level structure, this app should also support just picking random photos from a folder of many photos
+ -that means there will not be a title, or the tile is meaningless
+ 
 -pick numbers as well as percentage
 
 -readme file to show usage
+
 -after 2nd level directory pick, check to see if there are image files first before going to next stage
 -if load to dropbox folder, consider delete the previous directory 
  -under Photos/Photos_of_the_day
