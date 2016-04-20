@@ -25,6 +25,9 @@ run:3; picked:IMG_4948.JPG; list.size:1173;
 --------------------------
 Enhancements, thoughts:
 
+-optimize the algorithm so that it doesn't need to detect the media type (to check that it is jpg image) for all files in the chosen folder
+ -perhaps only do it after the file/photo is chosen
+ 
 -maybe instead of relying on the 2 directory level structure, this app should also support just picking random photos from a folder of many photos
  -that means there will not be a title, or the tile is meaningless
  
