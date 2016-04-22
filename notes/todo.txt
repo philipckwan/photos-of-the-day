@@ -1,33 +1,11 @@
 --------------------------
 Issues:
--fail for this directory: D:\desktop_backups\all\_B01_my_album_new\2004_to_2009-work_US\20090612-from doris camera
- -because it only contains 2 sub-directories
 
--fail
-[1178], file:philip_proposal;
-remove:philip_proposal;
-java.io.IOException: File '/Volumes/WD_1TB/desktop_backups/all/_B01_my_album_new/2004_to_2009-work_US/20100807-puerto rico/philip_proposal' exists but is a directory
-[1179], file:water_camera;
-remove:water_camera;
-fileList.size (after filtering):1177; numPhotosPick:12;
-run:0; picked:IMG_4590.JPG; list.size:1176;
-	at org.apache.commons.io.FileUtils.openInputStream(FileUtils.java:130)
-	at org.apache.commons.io.FileUtils.readFileToByteArray(FileUtils.java:994)
-	at com.pck.PhotosOfTheDay.main(PhotosOfTheDay.java:74)
-java.io.IOException: File '/Volumes/WD_1TB/desktop_backups/all/_B01_my_album_new/2004_to_2009-work_US/20100807-puerto rico/water_camera' exists but is a directory
-	at org.apache.commons.io.FileUtils.openInputStream(FileUtils.java:130)
-	at org.apache.commons.io.FileUtils.readFileToByteArray(FileUtils.java:994)
-	at com.pck.PhotosOfTheDay.main(PhotosOfTheDay.java:74)
-run:1; picked:IMG_5029.JPG; list.size:1175;
-run:2; picked:IMG_4953.JPG; list.size:1174;
-run:3; picked:IMG_4948.JPG; list.size:1173;
 
 --------------------------
 Enhancements, thoughts:
 
--optimize the algorithm so that it doesn't need to detect the media type (to check that it is jpg image) for all files in the chosen folder
- -perhaps only do it after the file/photo is chosen
- 
+
 -maybe instead of relying on the 2 directory level structure, this app should also support just picking random photos from a folder of many photos
  -that means there will not be a title, or the tile is meaningless
  
@@ -60,6 +38,36 @@ Enhancements, thoughts:
  
 -------------------------- 
 DONE:
+
+FIXED-optimize the algorithm so that it doesn't need to detect the media type (to check that it is jpg image) for all files in the chosen folder
+ -perhaps only do it after the file/photo is chosen
+ -example test timing on puerto_rico: 
+  -before:11400,11724,11706,11905,11407
+  -after:584,619,576,659,618
+  
+YES-can this app handle png image?
+
+FIXED-fail for this directory: D:\desktop_backups\all\_B01_my_album_new\2004_to_2009-work_US\20090612-from doris camera
+ -because it only contains 2 sub-directories
+
+FIXED-fail
+[1178], file:philip_proposal;
+remove:philip_proposal;
+java.io.IOException: File '/Volumes/WD_1TB/desktop_backups/all/_B01_my_album_new/2004_to_2009-work_US/20100807-puerto rico/philip_proposal' exists but is a directory
+[1179], file:water_camera;
+remove:water_camera;
+fileList.size (after filtering):1177; numPhotosPick:12;
+run:0; picked:IMG_4590.JPG; list.size:1176;
+	at org.apache.commons.io.FileUtils.openInputStream(FileUtils.java:130)
+	at org.apache.commons.io.FileUtils.readFileToByteArray(FileUtils.java:994)
+	at com.pck.PhotosOfTheDay.main(PhotosOfTheDay.java:74)
+java.io.IOException: File '/Volumes/WD_1TB/desktop_backups/all/_B01_my_album_new/2004_to_2009-work_US/20100807-puerto rico/water_camera' exists but is a directory
+	at org.apache.commons.io.FileUtils.openInputStream(FileUtils.java:130)
+	at org.apache.commons.io.FileUtils.readFileToByteArray(FileUtils.java:994)
+	at com.pck.PhotosOfTheDay.main(PhotosOfTheDay.java:74)
+run:1; picked:IMG_5029.JPG; list.size:1175;
+run:2; picked:IMG_4953.JPG; list.size:1174;
+run:3; picked:IMG_4948.JPG; list.size:1173;
 v-generate the summary file
  v-email template
  v-some statistics (e.g. number of picks / number of total files in folder -> percentage)
