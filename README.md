@@ -74,9 +74,9 @@ The 2nd level folder is an event in that year where the photos are taken
 
 For example:  
 photo_archive_root/  
-	2004/  
-		20040520-my_college_graduation/  
-		20040713-summer_trip_to_Spain/  
+  2004/  
+    20040520-my_college_graduation/  
+    20040713-summer_trip_to_Spain/  
 		20041128-Thanksgiving_gathering_at_Johns/  
 		20041224-chrismas_party_and_roadtrip/  
 		20041231-new_year_eve/  
