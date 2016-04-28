@@ -11,8 +11,6 @@ Enhancements, thoughts:
  
 -pick numbers as well as percentage
 
--readme file to show usage
-
 -after 2nd level directory pick, check to see if there are image files first before going to next stage
 -if load to dropbox folder, consider delete the previous directory 
  -under Photos/Photos_of_the_day
@@ -31,13 +29,16 @@ Enhancements, thoughts:
  -error checking
   -validate source and destination directories
   
--readme contents
- -motivates me to better organize my picture
- -motivates me to delete bad pictures
- -motivates me to take better pictures ;-P
  
 -------------------------- 
 DONE:
+
+DONE-readme file to show usage
+
+DONE-readme contents
+ -motivates me to better organize my picture
+ -motivates me to delete bad pictures
+ -motivates me to take better pictures ;-P
 
 FIXED-optimize the algorithm so that it doesn't need to detect the media type (to check that it is jpg image) for all files in the chosen folder
  -perhaps only do it after the file/photo is chosen
