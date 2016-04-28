@@ -44,23 +44,23 @@ Organizing your photo archive
 
 This application assumes a 2 level directory structure, for example:  
 source directory (root)/  
-	L1-A/  
-		L2-A-1/  
-			(photos)  
-		L2-A-2/  
-			(photos)  
-	L1-B/  
-		L2-B-1/  
-			(photos)  
-		L2-B-2/  
-			(photos)  
-		L2-B-3/  
-			(photos)  
-	L1-C/  
-		L2-C-1/  
-			(photos)  
-		L2-C-2/  
-			(photos)  
+--L1-A/  
+----L2-A-1/  
+------(photos)  
+----L2-A-2/  
+------(photos)  
+--L1-B/  
+----L2-B-1/  
+------(photos)  
+----L2-B-2/  
+------(photos)  
+----L2-B-3/  
+------(photos)  
+--L1-C/  
+----L2-C-1/  
+------(photos)  
+----L2-C-2/  
+------(photos)  
 
 Each run of the application, a folder from the 2nd level will be chosen, in the above example, all folders with name "L2-*" have a fair chance of being chosen.
 Then, all photos in that folder will be randomly chosen, up to the number specified in "howManyPhotosToPick" in the input config file.
@@ -74,17 +74,17 @@ The 2nd level folder is an event in that year where the photos are taken
 
 For example:  
 photo_archive_root/  
- + 2004/  
- +   20040520-my_college_graduation/  
- +   20040713-summer_trip_to_Spain/  
-		20041128-Thanksgiving_gathering_at_Johns/  
-		20041224-chrismas_party_and_roadtrip/  
-		20041231-new_year_eve/  
-	2005/  
-		20050120-chinse_new_year_gathering/  
-		20050420-my_birthday_party/  
-	2006/  
-		20060101-new_year_party/  
-		20060310-my_farewell_at_work/  
-		20061128-Thanksgiving_party_at_Peters/  
+--2004/  
+----20040520-my_college_graduation/  
+----20040713-summer_trip_to_Spain/  
+----20041128-Thanksgiving_gathering_at_Johns/  
+----20041224-chrismas_party_and_roadtrip/  
+----20041231-new_year_eve/  
+--2005/  
+----20050120-chinse_new_year_gathering/  
+----20050420-my_birthday_party/  
+--2006/  
+----20060101-new_year_party/  
+----20060310-my_farewell_at_work/  
+----20061128-Thanksgiving_party_at_Peters/  
 	
