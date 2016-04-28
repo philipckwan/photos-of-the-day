@@ -91,10 +91,11 @@ photo_archive_root/
 Motivation to better organize your photo archive
 -
 
-Hope you will find some value in using this Photos-of-the-Day application!
+Hope you will find some value in using this Photos-of-the-Day application!  
 While I am using it, some motivations arise, I hope you also get some inspirations and motivations
 
-* Motivates me to better organize my photos. A lot of my recent photos are exported from my iPhone, and they are really not organized    
+* Motivates me to better organize my photos  
+A lot of my recent photos are exported from my iPhone, and they are really not organized.  
 They just lumped up into a single folder when I export them to my photos archive.  
 If I have to use this application more effectively I really need to organize my photos better, by putting them into events.  
 * Motivates me to delete bad pictures  
