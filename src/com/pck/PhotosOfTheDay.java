@@ -15,7 +15,7 @@ public class PhotosOfTheDay {
 
 	private static int numPhotosPick = 1;
 
-	private static final String SIGNATURE = "PhotosOfTheDay (v0.8)";
+	private static final String SIGNATURE = "PhotosOfTheDay (v0.9)";
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("PhotosOfTheDay.main: START - " + SIGNATURE);
@@ -64,11 +64,11 @@ public class PhotosOfTheDay {
 		while (iter.hasNext()) {
 			File cFile = iter.next();
 			//System.out.println("[" + ++counter + "], file:" + cFile.getName() + ";");
-
+		
 			if (!POTDUtility.isFileOfAcceptableType(cFile)) {
 				iter.remove();
 			}
-
+		
 		}
 		*/
 
@@ -85,8 +85,9 @@ public class PhotosOfTheDay {
 		for (numPhotosPicked = 0; numPhotosPicked < numPhotosPick && fileList.size() > 0;) {
 			int idxPicked = rand.nextInt(fileList.size());
 			File filePicked = fileList.remove(idxPicked);
-			System.out.println("run:" + numPhotosPicked + "; picked:" + filePicked.getName() + "; list.size:"
+			/*System.out.println("run:" + numPhotosPicked + "; picked:" + filePicked.getName() + "; list.size:"
 					+ fileList.size() + ";");
+					*/
 
 			if (!POTDUtility.isFileOfAcceptableType(filePicked)) {
 				continue;
@@ -118,34 +119,57 @@ public class PhotosOfTheDay {
 	private static Map<Integer, File> populateDirectoryMap() throws IOException {
 		Map<Integer, File> dirMap = new HashMap<Integer, File>();
 
-		File[] dirFirstLevel = ConfigurationManager.getSourceDirectory().listFiles();
+		File[] dirFirstLevel = ConfigurationManager.getSourceDirectory().listFiles(File::isDirectory);
 
 		Integer counter = 0;
 
-		if (dirFirstLevel != null) {
-			System.out.println("__1st level directory size:" + dirFirstLevel.length + ";");
-			for (File aDir : dirFirstLevel) {
-				if (!aDir.isDirectory()) {
+		if (dirFirstLevel == null) {
+			System.out.println("populateDirectoryMap: ERROR - 1st level directory is empty");
+			return dirMap;
+		}
+
+		for (File aDir : dirFirstLevel) {
+			/*
+			if (!aDir.isDirectory()) {
+				continue;
+			}
+			*/
+			//System.out.println("1st level directory: " + aDir.getCanonicalPath());
+			File[] dirSecondLevel = aDir.listFiles(File::isDirectory);
+			if (dirSecondLevel == null) {
+				continue;
+			}
+
+			for (File bDir : dirSecondLevel) {
+				/*
+				if (!bDir.isDirectory()) {
+					continue;
+				}*/
+				//System.out.println("2nd level directory: " + bDir.getCanonicalPath());
+				counter++;
+				dirMap.put(counter, bDir);
+
+				// To support 3rd level directory
+				File[] dirThirdLevel = bDir.listFiles(File::isDirectory);
+				if (dirThirdLevel == null) {
 					continue;
 				}
-				//System.out.println("1st level directory: " + aDir.getCanonicalPath());
-				File[] dirSecondLevel = aDir.listFiles();
-				if (dirSecondLevel != null) {
-					for (File bDir : dirSecondLevel) {
-						//System.out.println("2nd level directory: " + bDir.getCanonicalPath());
-						if (!bDir.isDirectory()) {
-							continue;
-						}
-						counter++;
-						dirMap.put(counter, bDir);
-					}
+
+				for (File cDir : dirThirdLevel) {
+					counter++;
+					dirMap.put(counter, cDir);
 				}
+
 			}
-		} else {
-			System.out.println("populateDirectoryMap: ERROR - 1st level directory is empty");
+
 		}
 
 		System.out.println("__dirMap.size:" + dirMap.size() + ";");
+		/*
+		for (File aDir : dirMap.values()) {
+			System.out.println("__:" + aDir.getName() + ";");
+		}
+		*/
 		return dirMap;
 	}
 

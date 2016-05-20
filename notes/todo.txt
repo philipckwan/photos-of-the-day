@@ -5,6 +5,7 @@ Issues:
 --------------------------
 Enhancements, thoughts:
 
+DONE-support 3rd level directory
 
 -maybe instead of relying on the 2 directory level structure, this app should also support just picking random photos from a folder of many photos
  -that means there will not be a title, or the tile is meaningless
@@ -26,8 +27,8 @@ Enhancements, thoughts:
  -take user preference to lean towards certain directory (e.g. 1st level: I want to see something in year 2000 to 2004)
  -consider a chat agent (could be HTTP REST based as a start) to interact with to give directions and get properties
  
- -error checking
-  -validate source and destination directories
+-error checking
+ -validate source and destination directories
   
  
 -------------------------- 
