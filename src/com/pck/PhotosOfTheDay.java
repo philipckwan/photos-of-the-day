@@ -64,11 +64,11 @@ public class PhotosOfTheDay {
 		while (iter.hasNext()) {
 			File cFile = iter.next();
 			//System.out.println("[" + ++counter + "], file:" + cFile.getName() + ";");
-		
+
 			if (!POTDUtility.isFileOfAcceptableType(cFile)) {
 				iter.remove();
 			}
-		
+
 		}
 		*/
 
@@ -77,8 +77,8 @@ public class PhotosOfTheDay {
 		if (numPhotosPick > fileList.size()) {
 			numPhotosPick = fileList.size();
 		}
-		System.out.println(
-				"__fileList.size (after filtering):" + fileList.size() + "; numPhotosPick:" + numPhotosPick + ";");
+		System.out.println("__fileList.size (max between numPhotosPick and fileList.size):" + fileList.size()
+				+ "; numPhotosPick:" + numPhotosPick + ";");
 		int totalSize = fileList.size();
 		int numPhotosPicked = 0;
 

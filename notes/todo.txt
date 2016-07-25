@@ -5,7 +5,10 @@ Issues:
 --------------------------
 Enhancements, thoughts:
 
-DONE-support 3rd level directory
+-add a property to pre-pick the folder, if found in the map list of folder, then use that one
+ -purpose of this is for me to try to repick the photos from the same folder
+ 
+-mavenize so that I can invoke it using mvn command
 
 -maybe instead of relying on the 2 directory level structure, this app should also support just picking random photos from a folder of many photos
  -that means there will not be a title, or the tile is meaningless
@@ -27,12 +30,14 @@ DONE-support 3rd level directory
  -take user preference to lean towards certain directory (e.g. 1st level: I want to see something in year 2000 to 2004)
  -consider a chat agent (could be HTTP REST based as a start) to interact with to give directions and get properties
  
--error checking
- -validate source and destination directories
-  
  
 -------------------------- 
 DONE:
+
+OK-error checking
+ -validate source and destination directories
+
+DONE-support 3rd level directory
 
 DONE-readme file to show usage
 
