@@ -1,4 +1,4 @@
-package com.pck;
+package com.pck.potd;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,13 +1,12 @@
 --------------------------
 Issues:
 
+-what if 2 folders have the same name?
+-separate out the 2 traverse and pick strategies and maybe modularize it
 
 --------------------------
 Enhancements, thoughts:
 
--add a property to pre-pick the folder, if found in the map list of folder, then use that one
- -purpose of this is for me to try to repick the photos from the same folder
- 
 -mavenize so that I can invoke it using mvn command
 
 -maybe instead of relying on the 2 directory level structure, this app should also support just picking random photos from a folder of many photos
@@ -33,6 +32,24 @@ Enhancements, thoughts:
  
 -------------------------- 
 DONE:
+
+DONE-add a property to pre-pick the folder, if found in the map list of folder, then use that one
+ DONE-purpose of this is for me to try to repick the photos from the same folder
+
+DONE-please test with this folder "200406-family trip" as it has more than 3 layers of folders, and at the 3 level, it only contains .mov files
+ DONE-maybe it will work with my new strategy --> ANSWER: YES! GOOD!
+ 
+DONE-new strategy - more intelligent when traversing the folders
+-have 2 lists: listFolderOfFolders, listFolderOfPhotos
+ -listFolderOfFolders contain all folders that have sub-folders
+  -i.e. root folder is an example
+ -listFolderOfPhotos contain all folders that directly have files (not yet decided whether I should filter out folders that have files but no photo, currently out of scope)
+ -a folder can be in both list at the same time (i.e. a folder that has photos as well as sub-folders
+ -by doing this, I can support pre-picking folder
+  -if pre-pick a folder that have sub-folders, the run will only consider the sub-folders
+  -find all the folders under this folder in the listFolderOfPhotos, then do the random pick of folder, then photos
+  -if pre-pick a folder that is leaf, then just start picking the photos.
+
 
 OK-error checking
  -validate source and destination directories

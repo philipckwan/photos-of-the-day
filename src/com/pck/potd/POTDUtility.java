@@ -1,4 +1,4 @@
-package com.pck;
+package com.pck.potd;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -19,6 +19,8 @@ public class POTDUtility {
 	private static final String MIME_TYPE_IMAGE_BMP = "image/x-ms-bmp";
 	private static final String MIME_TYPE_IMAGE_GIF = "image/gif";
 	private static final Set<String> ACCEPTABLE_FILE_TYPE_SET = new HashSet<String>();
+	
+	private static final long MAXIMUM_PHOTO_FILE_SIZE = 10000000L;
 
 	static {
 		ACCEPTABLE_FILE_TYPE_SET.add(MIME_TYPE_IMAGE_JPEG);
@@ -31,8 +33,11 @@ public class POTDUtility {
 		boolean isAcceptable = false;
 
 		if (!aFile.isFile()) {
-			System.out
-					.println("POTDUtility.isFileOfAcceptableType: this file [" + aFile.getName() + "] is not a file;");
+			//System.out
+			//		.println("POTDUtility.isFileOfAcceptableType: this file [" + aFile.getName() + "] is not a file;");
+			isAcceptable = false;
+		} else if (aFile.length() > MAXIMUM_PHOTO_FILE_SIZE) {
+			//System.out.println("POTDUtility.isFileOfAcceptableType: this file [" + aFile.getName() + "] is too large:" + aFile.length() + ";");
 			isAcceptable = false;
 		} else {
 
@@ -45,8 +50,8 @@ public class POTDUtility {
 				String name = mimeType.getName();
 
 				if (!ACCEPTABLE_FILE_TYPE_SET.contains(name)) {
-					System.out.println("POTDUtility.isFileOfAcceptableType: this file [" + aFile.getName()
-							+ "] of type [" + name + "], which is not of acceptable type;");
+					//System.out.println("POTDUtility.isFileOfAcceptableType: this file [" + aFile.getName()
+					//		+ "] of type [" + name + "], which is not of acceptable type;");
 					isAcceptable = false;
 				} else {
 					isAcceptable = true;

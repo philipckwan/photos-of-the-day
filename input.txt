@@ -1,3 +1,6 @@
-sourceDirectory=C:\\Users\\Philip\\Desktop\\photos_tmp\\original
-destinationDirectory=C:\\Users\\Philip\\Desktop\\photos_tmp\\destination
-howManyPhotosToPick=2
+sourceDirectory=/Volumes/WD_1TB/desktop_backups/all/_B01_my_album_new
+#sourceDirectory=/Users/Philip/Pictures/old
+#sourceDirectory=/Users/Philip/Documents/photos_test/source
+destinationDirectory=/Users/Philip/Documents/photos_test/destination
+howManyPhotosToPick=15
+specificDirectory=

@@ -1,4 +1,4 @@
-package com.pck;
+package com.pck.potd;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,10 +11,12 @@ public class ConfigurationManager {
 	public static final String KEYWORD_SOURCE_ROOT = "sourceDirectory";
 	public static final String KEYWORD_DESTINATION_DIRECTORY = "destinationDirectory";
 	public static final String KEYWORD_HOW_MANY_PHOTOS_TO_PICK = "howManyPhotosToPick";
+	public static final String KEYWORD_SPECIFIC_DIRECTORY="specificDirectory";
 
 	private static String sourceRoot = null;
 	private static String destinationRoot = null;
 	private static String howManyPhotosToPick = null;
+	private static String specificDirectory = null;
 
 	private static File dirSourceRoot = null;
 	private static File dirDestinationRoot = null;
@@ -29,6 +31,7 @@ public class ConfigurationManager {
 		sourceRoot = PropertiesManager.getProperty(KEYWORD_SOURCE_ROOT);
 		destinationRoot = PropertiesManager.getProperty(KEYWORD_DESTINATION_DIRECTORY);
 		howManyPhotosToPick = PropertiesManager.getProperty(KEYWORD_HOW_MANY_PHOTOS_TO_PICK);
+		specificDirectory = PropertiesManager.getProperty(KEYWORD_SPECIFIC_DIRECTORY);
 
 		dirSourceRoot = new File(sourceRoot);
 		// validate the source directory
@@ -92,5 +95,9 @@ public class ConfigurationManager {
 
 	public static File getDestinationDirectory() {
 		return dirDestinationRoot;
+	}
+	
+	public static String getSpecificDirectory() {
+		return specificDirectory;
 	}
 }
