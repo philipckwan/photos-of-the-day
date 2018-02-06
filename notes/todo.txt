@@ -3,6 +3,12 @@ Issues:
 
 -what if 2 folders have the same name?
 -separate out the 2 traverse and pick strategies and maybe modularize it
+-if the property "howManyPhotosToPick" is bigger than the picked folder's number of photos
+ the resulting email has a wrong count
+ e.g. howManyPhotosToPick=20
+ folder has only 10 photos
+ the email will say that "10 photos are picked out of 20 ==> 50.0%"
+-can the counting of files ignore dot (.) files?
 
 --------------------------
 Enhancements, thoughts:
