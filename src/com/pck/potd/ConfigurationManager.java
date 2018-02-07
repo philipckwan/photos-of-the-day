@@ -11,12 +11,14 @@ public class ConfigurationManager {
 	public static final String KEYWORD_SOURCE_ROOT = "sourceDirectory";
 	public static final String KEYWORD_DESTINATION_DIRECTORY = "destinationDirectory";
 	public static final String KEYWORD_HOW_MANY_PHOTOS_TO_PICK = "howManyPhotosToPick";
-	public static final String KEYWORD_SPECIFIC_DIRECTORY="specificDirectory";
+	public static final String KEYWORD_SPECIFIC_DIRECTORY = "specificDirectory";
+	public static final String KEYWORD_RENAME_FILES = "renameFiles";
 
 	private static String sourceRoot = null;
 	private static String destinationRoot = null;
 	private static String howManyPhotosToPick = null;
 	private static String specificDirectory = null;
+	private static String renameFiles = null;
 
 	private static File dirSourceRoot = null;
 	private static File dirDestinationRoot = null;
@@ -32,6 +34,7 @@ public class ConfigurationManager {
 		destinationRoot = PropertiesManager.getProperty(KEYWORD_DESTINATION_DIRECTORY);
 		howManyPhotosToPick = PropertiesManager.getProperty(KEYWORD_HOW_MANY_PHOTOS_TO_PICK);
 		specificDirectory = PropertiesManager.getProperty(KEYWORD_SPECIFIC_DIRECTORY);
+		renameFiles = PropertiesManager.getProperty(KEYWORD_RENAME_FILES);
 
 		dirSourceRoot = new File(sourceRoot);
 		// validate the source directory
@@ -96,8 +99,12 @@ public class ConfigurationManager {
 	public static File getDestinationDirectory() {
 		return dirDestinationRoot;
 	}
-	
+
 	public static String getSpecificDirectory() {
 		return specificDirectory;
+	}
+
+	public static String getRenameFiles() {
+		return renameFiles;
 	}
 }

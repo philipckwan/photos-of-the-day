@@ -2,7 +2,6 @@ package com.pck.potd;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -17,9 +16,11 @@ public class PhotosOfTheDay {
 	private static int numPhotosPick = 1;
 
 	private static final String SIGNATURE = "PhotosOfTheDay (v0.10)";
-	
+
 	private static Map<String, File> mapFolderOfFolders = new HashMap<String, File>();
 	private static Map<String, File> mapFolderOfFiles = new HashMap<String, File>();
+
+	private static int renameFileNumberIdx = 0;
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("PhotosOfTheDay.main: START - " + SIGNATURE);
@@ -36,12 +37,12 @@ public class PhotosOfTheDay {
 		numPhotosPick = ConfigurationManager.getNumPhotosToPick();
 		Random rand = new Random();
 		File directoryPicked = null;
-		
+
 		// TODO - timer starts here
 		long timeStart = System.currentTimeMillis();
-		
+
 		// Strategy 1
-		
+
 		populateDirectoryMap2(ConfigurationManager.getSourceDirectory());
 		String specificDirectory = ConfigurationManager.getSpecificDirectory();
 		if (mapFolderOfFiles.containsKey(specificDirectory)) {
@@ -55,26 +56,25 @@ public class PhotosOfTheDay {
 				mapFolderOfFolders.clear();
 				mapFolderOfFiles.clear();
 				populateDirectoryMap2(specificDirectoryFile);
-			} else if (specificDirectory != null && specificDirectory.length() > 0){
+			} else if (specificDirectory != null && specificDirectory.length() > 0) {
 				System.out.println("PhotosOfTheDay.main: specific directory is not found:" + specificDirectory + ";");
 			}
 			File[] listFolderOfFiles = mapFolderOfFiles.values().toArray(new File[0]);
 			directoryPicked = listFolderOfFiles[rand.nextInt(listFolderOfFiles.length)];
 		}
-		
-		
+
 		// Strategy 2
 		/*
 		Map<Integer, File> dirMap = populateDirectoryMap();
-
+		
 		Integer idxPick = ((int) (Math.random() * dirMap.size())) + 1;
 		directoryPicked = dirMap.get(idxPick);
-		*/		
+		*/
 
 		// TODO - timer ends here
 		long timeEnd = System.currentTimeMillis();
 		System.out.println("__time taken:" + (timeEnd - timeStart) + ";");
-				
+
 		System.out.println("PhotosOfTheDay.main: directoryPicked:[" + directoryPicked.getName() + "]");
 
 		List<File> fileList = new LinkedList<File>(Arrays.asList(directoryPicked.listFiles()));
@@ -99,36 +99,41 @@ public class PhotosOfTheDay {
 			}
 
 			try {
-				FileUtils.copyFileToDirectory(filePicked, ConfigurationManager.getDestinationDirectory());
+				if ("number".equals(ConfigurationManager.getRenameFiles())) {
+					renameFileNumberIdx++;
+					File newFile = new File(ConfigurationManager.getDestinationDirectory(),
+							String.format("%02d", renameFileNumberIdx) + ".jpg");
+					FileUtils.copyFile(filePicked, newFile);
+				} else {
+					FileUtils.copyFileToDirectory(filePicked, ConfigurationManager.getDestinationDirectory());
+				}
 				numPhotosPicked++;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
 		}
-		
 
 		EmailTemplate.writeToFile(ConfigurationManager.getDestinationDirectory(),
 				directoryPicked.getParentFile().getName(), "..." + File.separator + directoryPicked.getName(),
 				numPhotosPicked + " photos are picked out of " + totalSize + " ==> "
 						+ ((float) numPhotosPicked) / totalSize * 100 + "%",
 				SIGNATURE);
-		
 
 		System.out.println("PhotosOfTheDay.main: END");
 	}
-	
+
 	private static void populateDirectoryMap2(File thisFolder) {
 		File[] subFolders = thisFolder.listFiles(File::isDirectory);
 		File[] subFiles = thisFolder.listFiles(File::isFile);
-		
+
 		if (subFolders != null && subFolders.length > 0) {
 			mapFolderOfFolders.put(thisFolder.getName(), thisFolder);
 			for (File aFolder : subFolders) {
 				populateDirectoryMap2(aFolder);
 			}
 		}
-		
+
 		if (subFiles != null && subFiles.length > 0) {
 			for (File aFile : subFiles) {
 				if (POTDUtility.isFileOfAcceptableType(aFile)) {
@@ -136,32 +141,31 @@ public class PhotosOfTheDay {
 					break;
 				}
 			}
-			
+
 		}
 	}
-	
+
 	private static void printBothMaps() {
 		System.out.println("PhotosOfTheDay.printBothMaps: START");
-		
+
 		System.out.println("--mapFolderOfFolders, total:" + mapFolderOfFolders.size() + ";");
 		for (String aFolderName : mapFolderOfFolders.keySet()) {
 			System.out.println("----:" + aFolderName + ";");
 		}
-		
+
 		System.out.println("--mapFolderOfFiles, total:" + mapFolderOfFiles.size() + ";");
 		for (String aFolderName : mapFolderOfFiles.keySet()) {
 			System.out.println("----:" + aFolderName + ";");
 		}
-		
+
 		System.out.println("PhotosOfTheDay.printBothMaps: END");
 	}
 
 	private static Map<Integer, File> populateDirectoryMap() throws IOException {
-		
+
 		Map<Integer, File> dirMap = new HashMap<Integer, File>();
 
 		File[] dirFirstLevel = ConfigurationManager.getSourceDirectory().listFiles(File::isDirectory);
-		
 
 		Integer counter = 0;
 
