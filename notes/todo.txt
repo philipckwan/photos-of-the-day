@@ -13,7 +13,10 @@ DONE-can the counting of files ignore dot (.) files?
 --------------------------
 Enhancements, thoughts:
 
--mavenize so that I can invoke it using mvn command
+DROP-mavenize so that I can invoke it using mvn command
+ -since this is a standalone java app, it is not straightforward to run using the maven command
+  also, the library dependencies have to be provided as well
+ 
 
 -maybe instead of relying on the 2 directory level structure, this app should also support just picking random photos from a folder of many photos
  -that means there will not be a title, or the tile is meaningless
