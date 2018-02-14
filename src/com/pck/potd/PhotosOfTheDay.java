@@ -1,6 +1,7 @@
 package com.pck.potd;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -77,7 +78,18 @@ public class PhotosOfTheDay {
 
 		System.out.println("PhotosOfTheDay.main: directoryPicked:[" + directoryPicked.getName() + "]");
 
-		List<File> fileList = new LinkedList<File>(Arrays.asList(directoryPicked.listFiles()));
+		File[] fileArray = directoryPicked.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				String name = file.getName();
+				if (name.startsWith(".")) {
+					return false;
+				}
+				return true;
+			}
+
+		});
+		List<File> fileList = new LinkedList<File>(Arrays.asList(fileArray));
 		System.out.println("__fileList.size (before filtering):" + fileList.size() + ";");
 
 		System.out.println(
