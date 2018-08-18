@@ -16,7 +16,7 @@ public class PhotosOfTheDay {
 
 	private static int numPhotosPick = 1;
 
-	private static final String SIGNATURE = "PhotosOfTheDay (v0.10)";
+	private static final String SIGNATURE = "PhotosOfTheDay (v0.13)";
 
 	private static Map<String, File> mapFolderOfFolders = new HashMap<String, File>();
 	private static Map<String, File> mapFolderOfFiles = new HashMap<String, File>();

@@ -17,20 +17,19 @@ public class EmailTemplate {
 		try (PrintWriter out = new PrintWriter(filepath)) {
 			out.println("Photos of the Day - " + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 			out.println();
-			out.println("<insert Dropbox link here>");
+			out.println("https://philipckwan.github.io/");
 			out.println();
 			out.println(
-					"Please visit the above Dropbox link as I have picked the \"Photos of the Day\" from my photo archive.");
+					"Please visit the above slideshow link as I have picked the \"Photos of the Day\" from my photo archive.");
+			out.println("Enter the below passphrase exactly (follow the lower or upper cases):"); 
+			out.println("elephant");
+			out.println("And then click the button \"Go\". You will then see a slideshow of the photos");
 			out.println();
-			out.println("These photos of the day are selected from:");
+			out.println("These photos are selected from:");
 			out.println(pickedPhotoInfo1);
 			out.println(pickedPhotoInfo2);
 			out.println(pickedPhotoInfo3);
 			out.println("");
-			out.println(
-					"As the name suggested, the Photos of the Day from yesterday are already removed, you only be able to view today's photos.");
-			out.println(
-					"Note also that the photos are randomly chosen, so it might not be very satisfying. I can control the number of photos to be chosen each day, you can give me a suggestion.");
 			out.println();
 			out.println(signature);
 		}
