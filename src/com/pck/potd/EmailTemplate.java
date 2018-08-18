@@ -22,7 +22,7 @@ public class EmailTemplate {
 			out.println(
 					"Please visit the above slideshow link as I have picked the \"Photos of the Day\" from my photo archive.");
 			out.println("Enter the below passphrase exactly (follow the lower or upper cases):"); 
-			out.println("elephant");
+			out.println("<passphrase>");
 			out.println("And then click the button \"Go\". You will then see a slideshow of the photos");
 			out.println();
 			out.println("These photos are selected from:");
