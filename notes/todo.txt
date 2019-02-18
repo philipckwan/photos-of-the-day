@@ -12,6 +12,8 @@ DONE-can the counting of files ignore dot (.) files?
 
 -bug suspected: in the folder "20190209-2-kids_pbk_photos/ella_picked", there are 82 photos. I run with both howManyPhotosToPick with 82 or 100,
  still only able to pick 80 photos. not sure why 2 photos are never picked
+ -root cause found, the 2 photos are larger than the limit in POTDUtility.MAXIMUM_PHOTO_FILE_SIZE
+  -consider to add warning instead of simply skipping them
 
 
 --------------------------
