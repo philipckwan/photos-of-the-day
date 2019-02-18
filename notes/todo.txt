@@ -10,6 +10,10 @@ Issues:
  the email will say that "10 photos are picked out of 20 ==> 50.0%"
 DONE-can the counting of files ignore dot (.) files?
 
+-bug suspected: in the folder "20190209-2-kids_pbk_photos/ella_picked", there are 82 photos. I run with both howManyPhotosToPick with 82 or 100,
+ still only able to pick 80 photos. not sure why 2 photos are never picked
+
+
 --------------------------
 Enhancements, thoughts:
 
