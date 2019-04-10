@@ -39,11 +39,6 @@ public class PhotosOfTheDay {
 			System.out.println("PhotosOfTheDay.main: Will run in mode [MOVE_DUPLICATES];");
 			findDuplicates();
 			break;
-		case PICK_PHOTOS_AND_MOVE_DUPLICATES:
-			System.out.println("PhotosOfTheDay.main: Will run in mode [PICK_PHOTOS_AND_MOVE_DUPLICATES];");
-			findDuplicates();
-			pickPhotos();
-			break;
 		default:
 			System.out.println("PhotosOfTheDay.main: ERROR - not sure what mode to run in;");
 			break;
@@ -97,7 +92,7 @@ public class PhotosOfTheDay {
 		// Strategy 2
 		/*
 		Map<Integer, File> dirMap = populateDirectoryMap();
-		
+
 		Integer idxPick = ((int) (Math.random() * dirMap.size())) + 1;
 		directoryPicked = dirMap.get(idxPick);
 		*/
