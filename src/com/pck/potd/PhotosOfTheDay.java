@@ -3,7 +3,9 @@ package com.pck.potd;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,21 +18,47 @@ public class PhotosOfTheDay {
 
 	private static int numPhotosPick = 1;
 
-	private static final String SIGNATURE = "PhotosOfTheDay (v0.13)";
+	private static final String SIGNATURE = "PhotosOfTheDay (v0.14)";
 
 	private static Map<String, File> mapFolderOfFolders = new HashMap<String, File>();
 	private static Map<String, File> mapFolderOfFiles = new HashMap<String, File>();
 
 	private static int renameFileNumberIdx = 0;
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		System.out.println("PhotosOfTheDay.main: START - " + SIGNATURE);
 
 		ConfigurationManager.loadPropertiesAndValidate();
 
+		switch (ConfigurationManager.getMode()) {
+		case PICK_PHOTOS:
+			System.out.println("PhotosOfTheDay.main: Will run in mode [PICK_PHOTOS];");
+			pickPhotos();
+			break;
+		case MOVE_DUPLICATES:
+			System.out.println("PhotosOfTheDay.main: Will run in mode [MOVE_DUPLICATES];");
+			findDuplicates();
+			break;
+		case PICK_PHOTOS_AND_MOVE_DUPLICATES:
+			System.out.println("PhotosOfTheDay.main: Will run in mode [PICK_PHOTOS_AND_MOVE_DUPLICATES];");
+			findDuplicates();
+			pickPhotos();
+			break;
+		default:
+			System.out.println("PhotosOfTheDay.main: ERROR - not sure what mode to run in;");
+			break;
+		}
+
+		System.out.println("PhotosOfTheDay.main: END");
+	}
+
+	private static void pickPhotos() {
+		System.out.println("PhotosOfTheDay.pickPhotos: 1.0;");
+
 		// TODO - should we support percentage?
 		if (ConfigurationManager.isNumPhotosToPickAPercentage()) {
-			System.out.println("PhotosOfTheDay currently does not support percentage value for 'howManyPhotosToPick'");
+			System.out.println(
+					"PhotosOfTheDay.pickPhotos: ERROR - PhotosOfTheDay currently does not support percentage value for 'howManyPhotosToPick'");
 			System.exit(0);
 		}
 
@@ -47,18 +75,20 @@ public class PhotosOfTheDay {
 		populateDirectoryMap2(ConfigurationManager.getSourceDirectory());
 		String specificDirectory = ConfigurationManager.getSpecificDirectory();
 		if (mapFolderOfFiles.containsKey(specificDirectory)) {
-			System.out.println("PhotosOfTheDay.main: Pre-picked a folder of photos:" + specificDirectory + ";");
+			System.out.println("PhotosOfTheDay.pickPhotos: Pre-picked a folder of photos:" + specificDirectory + ";");
 			directoryPicked = mapFolderOfFiles.get(specificDirectory);
 		} else {
 			if (mapFolderOfFolders.containsKey(specificDirectory)) {
-				System.out.println("PhotosOfTheDay.main: Pre-picked a folder of folders:" + specificDirectory + ";");
+				System.out.println(
+						"PhotosOfTheDay.pickPhotos: Pre-picked a folder of folders:" + specificDirectory + ";");
 				// TODO: HACK - should consider revising
 				File specificDirectoryFile = mapFolderOfFolders.get(specificDirectory);
 				mapFolderOfFolders.clear();
 				mapFolderOfFiles.clear();
 				populateDirectoryMap2(specificDirectoryFile);
 			} else if (specificDirectory != null && specificDirectory.length() > 0) {
-				System.out.println("PhotosOfTheDay.main: specific directory is not found:" + specificDirectory + ";");
+				System.out.println(
+						"PhotosOfTheDay.pickPhotos: specific directory is not found:" + specificDirectory + ";");
 			}
 			File[] listFolderOfFiles = mapFolderOfFiles.values().toArray(new File[0]);
 			directoryPicked = listFolderOfFiles[rand.nextInt(listFolderOfFiles.length)];
@@ -76,7 +106,7 @@ public class PhotosOfTheDay {
 		long timeEnd = System.currentTimeMillis();
 		System.out.println("__time taken:" + (timeEnd - timeStart) + ";");
 
-		System.out.println("PhotosOfTheDay.main: directoryPicked:[" + directoryPicked.getName() + "]");
+		System.out.println("PhotosOfTheDay.pickPhotos: directoryPicked:[" + directoryPicked.getName() + "]");
 
 		File[] fileArray = directoryPicked.listFiles(new FileFilter() {
 			@Override
@@ -117,10 +147,11 @@ public class PhotosOfTheDay {
 							String.format("%02d", renameFileNumberIdx) + ".jpg");
 					FileUtils.copyFile(filePicked, newFile);
 				} else {
-					FileUtils.copyFileToDirectory(filePicked, ConfigurationManager.getDestinationDirectory());
+					FileUtils.copyFileToDirectory(filePicked, ConfigurationManager.getDestinationDirectory(), false);
 				}
 				numPhotosPicked++;
 			} catch (IOException e) {
+				System.out.println("PhotosOfTheDay.pickPhotos: ERROR - IOException:");
 				e.printStackTrace();
 			}
 
@@ -132,7 +163,72 @@ public class PhotosOfTheDay {
 						+ ((float) numPhotosPicked) / totalSize * 100 + "%",
 				SIGNATURE);
 
-		System.out.println("PhotosOfTheDay.main: END");
+	}
+
+	private static void findDuplicates() {
+		System.out.println("PhotosOfTheDay.findDuplicates: 1.0;");
+
+		/*
+		 * FileNode {
+		 * 	File file; // the file itself
+		 *  String md5; // the md5 of this file, doesn't always need to be computed
+		 * }
+		 *
+		 * Approach:
+		 * iterate the files under the src folder
+		 * build a map of <key>:<value> being <filesize in bytes>:<list of FileNode>
+		 * if a file has a filesize that is new in the map, then add to the map
+		 * else if a file hits an existing entry in map (i.e. having same filesize of a previous file):
+		 *  get (or calculate) the md5 of the files in the current list (there should be at least 1 file in the list)
+		 *  calculate the md5 of the file
+		 *  compare the md5 of the file and the files in the list
+		 *  if md5 match:
+		 *   this file is a duplicate
+		 *   move this file to the dst folder
+		 *   add this log to console or an output file so that user can see what is the results
+		 *  else:
+		 *   this file is not a duplicate, but only have same filesize by coincident
+		 *  finally:
+		 *   add this file to the list
+		 *   return
+		 */
+
+		Map<Long, List<FileNode>> fileSizeToFileListMap = new HashMap<Long, List<FileNode>>();
+
+		File[] files = ConfigurationManager.getSourceDirectory().listFiles(File::isFile);
+		Arrays.sort(files, Collections.reverseOrder());
+
+		for (File aFile : files) {
+			FileNode fn = new FileNode(aFile);
+			long aFileSize = aFile.length();
+			//System.out.println("__aFile.name:[" + aFile.getName() + "], size:[" + aFileSize + "];");
+			List<FileNode> fileNodeList = fileSizeToFileListMap.get(aFileSize);
+			if (fileNodeList != null) {
+				String md5ThisFile = POTDUtility.getMD5Hash(aFile);
+				fn.setHash(md5ThisFile);
+
+				for (FileNode aFileNode : fileNodeList) {
+					if (aFileNode.getHash() == null) {
+						aFileNode.setHash(POTDUtility.getMD5Hash(aFileNode.getFile()));
+					}
+				}
+
+				for (FileNode aFileNode : fileNodeList) {
+					if (fn.getHash().equals(aFileNode.getHash())) {
+						System.out.println("PhotosOfTheDay.findDuplicates: found duplicate:["
+								+ aFileNode.getFile().getName() + "] and [" + fn.getFile().getName()
+								+ "], will move the later file to duplicatesDirectory");
+						POTDUtility.moveFile(fn.getFile(), ConfigurationManager.getDuplicatesDirectory());
+						break;
+					}
+				}
+			} else {
+				fileNodeList = new ArrayList<FileNode>();
+				fileSizeToFileListMap.put(aFileSize, fileNodeList);
+			}
+			fileNodeList.add(fn);
+		}
+
 	}
 
 	private static void populateDirectoryMap2(File thisFolder) {
