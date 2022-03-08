@@ -88,6 +88,24 @@ photo_archive_root/
 ----20060310-my_farewell_at_work/  
 ----20061128-Thanksgiving_party_at_Peters/  
 	
+Examples of running this application
+-
+
+There are 4 modes currently:
+
+* PICK_PHOTOS  
+This is the general use case for this application. Pick photos randomly from a photo folder, they are copied to the destination folder, and an email template will be generated
+* MOVE_DUPLICATES  
+This is a utility function added, it find duplicate photos from the source folder, and move them to the "duplicate" folder.
+The limitation of this function is assuming all files in the source folder, but not traversing to subfolders.
+As this function make changes to the source folder, by moving files to the "duplicate" folder, use this function with caution.
+See the next 2 functions for enhancments
+* RECURSIVE_FIND_DUPLICATES  
+This is a utility function. Taking the source folder, it will traverse this folder and all subfolders, and find any duplicate photos (or actually any duplicate files), and list them out for user to take action on it.
+In other words, this function doesn't make any changes to the source folder, it will mot move or remove any files
+* RECURSIVE_MOVE_DUPLICATES  
+This is a utitlity function, similar to the RECURSIVE_FIND_DUPLICATES, but, it make changes to the source folder by moving one of the duplicate file to the "duplicate" folder. Therefore, use this function with caution.
+
 Motivation to better organize your photo archive
 -
 

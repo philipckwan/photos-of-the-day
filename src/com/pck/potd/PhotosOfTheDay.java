@@ -39,6 +39,14 @@ public class PhotosOfTheDay {
 			System.out.println("PhotosOfTheDay.main: Will run in mode [MOVE_DUPLICATES];");
 			findDuplicates();
 			break;
+		case RECURSIVE_FIND_DUPLICATES:
+			System.out.println("PhotosOfTheDay.main: Will run in mode [RECURSIVE_FIND_DUPLICATES];");
+			findDuplicatesRecursive(false);
+			break;
+		case RECURSIVE_MOVE_DUPLICATES:
+			System.out.println("PhotosOfTheDay.main: Will run in mode [RECURSIVE_MOVE_DUPLICATES];");
+			findDuplicatesRecursive(true);
+			break;	
 		default:
 			System.out.println("PhotosOfTheDay.main: ERROR - not sure what mode to run in;");
 			break;
@@ -158,6 +166,78 @@ public class PhotosOfTheDay {
 						+ ((float) numPhotosPicked) / totalSize * 100 + "%",
 				SIGNATURE);
 
+	}
+	
+	private static void findDuplicatesRecursive(boolean moveDuplicates) {
+		System.out.println("PhotosOfTheDay.findDuplicatesRecursive: 1.1;");
+		
+		Map<Long, List<FileNode>> fileSizeToFileListMap = new HashMap<Long, List<FileNode>>();
+		List<File> files = listFiles(ConfigurationManager.getSourceDirectory());
+		
+		System.out.println("PhotosOfTheDay.findDuplicatesRecursive: number of files:" + files.size() + ";");
+		
+		for (File aFile : files) {
+			FileNode fn = new FileNode(aFile);
+			long aFileSize = aFile.length();
+			//System.out.println("__aFile.name:[" + aFile.getName() + "], size:[" + aFileSize + "];");
+			List<FileNode> fileNodeList = fileSizeToFileListMap.get(aFileSize);
+			if (fileNodeList != null) {
+				String md5ThisFile = POTDUtility.getMD5Hash(aFile);
+				fn.setHash(md5ThisFile);
+
+				for (FileNode aFileNode : fileNodeList) {
+					if (aFileNode.getHash() == null) {
+						aFileNode.setHash(POTDUtility.getMD5Hash(aFileNode.getFile()));
+					}
+				}
+
+				for (FileNode aFileNode : fileNodeList) {
+					if (fn.getHash().equals(aFileNode.getHash())) {
+						System.out.println("-----found duplicate, listed with linux 'rm' command:");
+						
+						File fileA, fileB;
+						if (aFileNode.getFile().getPath().compareTo(fn.getFile().getPath()) > 0) {
+							fileA = fn.getFile();
+							fileB = aFileNode.getFile();
+						} else {
+							fileA = aFileNode.getFile();
+							fileB = fn.getFile();
+						}
+						if (!moveDuplicates) {
+							System.out.println("rm " + fileA.getPath());
+							System.out.println("rm " + fileB.getPath());
+						} else {
+							System.out.println("-- " + fileA.getPath());
+							System.out.println("-- " + fileB.getPath() + " <-- moved;");
+							POTDUtility.moveFile(fileB, ConfigurationManager.getDuplicatesDirectory());
+						}
+						break;
+					}
+					
+				}
+			} else {
+				fileNodeList = new ArrayList<FileNode>();
+				fileSizeToFileListMap.put(aFileSize, fileNodeList);
+			}
+			fileNodeList.add(fn);
+		}
+		System.out.println("PhotosOfTheDay.findDuplicatesRecursive: END;");
+		
+	}
+	
+	private static List<File> listFiles(File directory) {
+		List<File> files = new ArrayList<File>();
+		File[] filesAndDirectories = directory.listFiles();
+		
+		for(File aFileAndDirectory : filesAndDirectories) {
+			if (aFileAndDirectory.isDirectory()) {
+				files.addAll(listFiles(aFileAndDirectory));
+			} else {
+				files.add(aFileAndDirectory);
+			}
+		}
+		
+		return files;
 	}
 
 	private static void findDuplicates() {

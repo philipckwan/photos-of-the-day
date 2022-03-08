@@ -1,12 +1,9 @@
-sourceDirectory=C:\\Users\\Philip\\Desktop\\photos_tmp\\tmp_find_dups
-#sourceDirectory=C:\\Users\\Philip\\Desktop\\photos_tmp\\source
-#sourceDirectory=/Users/Philip/Documents/photos_test/source
+sourceDirectory=/Users/philip/Desktop/photos_tmp/source
 
-destinationDirectory=C:\\Users\\Philip\\Desktop\\photos_tmp\\destination
-#destinationDirectory=C:\\Users\\Philip\\Dropbox\\Photos\\Photos-of-the-Day\\potds
+destinationDirectory=/Users/philip/Desktop/photos_tmp/destination
 
-howManyPhotosToPick=11
+howManyPhotosToPick=20
 specificDirectory=
 renameFiles=number
-mode=PICK_PHOTOS
-duplicatesDirectory=C:\\Users\\Philip\\Desktop\\photos_tmp\\duplicates
+mode=RECURSIVE_FIND_DUPLICATES
+duplicatesDirectory=/Users/philip/Desktop/photos_tmp/duplicates
