@@ -73,9 +73,9 @@ Then, all photos will be copied to the destination directory, and a email templa
 
 Given the above explanation, user should structure their photo archive accordingly.
 
-One example of how to organize the photo archive folders is as follows:
-The 1st level folder is the year when the photos are taken
-The 2nd level folder is an event in that year where the photos are taken
+One example of how to organize the photo archive folders is as follows:  
+The 1st level folder is the year when the photos are taken  
+The 2nd level folder is an event in that year where the photos are taken  
 
 For example:  
 photo_archive_root/  
@@ -99,22 +99,22 @@ Examples of running this application
 There are 4 modes currently:
 
 * PICK_PHOTOS  
-This is the general use case for this application. Pick photos randomly from a photo folder, they are copied to the destination folder, and an email template will be generated.
-Mandatory specify in the input config file: "sourceDirectory", "destinationDirectory", "howManyPhotosToPick", "mode=PICK_PHOTOS".
-Optional specify in the input config file: "specificDirectory", "renameFiles=number"
+This is the general use case for this application. Pick photos randomly from a photo folder, they are copied to the destination folder, and an email template will be generated.  
+Mandatory specify in the input config file: "sourceDirectory", "destinationDirectory", "howManyPhotosToPick", "mode=PICK_PHOTOS".  
+Optional specify in the input config file: "specificDirectory", "renameFiles=number".  
 * MOVE_DUPLICATES  
-This is a utility function added, it find duplicate photos from the source folder, and move them to the "duplicate" folder.
-The limitation of this function is assuming all files in the source folder, but not traversing to subfolders.
-As this function make changes to the source folder, by moving files to the "duplicate" folder, use this function with caution.
-See the next 2 functions for enhancments.
-Mandatory specify in the input config file: "sourceDirectory", "duplicatesDirectory"
+This is a utility function added, it find duplicate photos from the source folder, and move them to the "duplicate" folder.  
+The limitation of this function is assuming all files in the source folder, but not traversing to subfolders.  
+As this function make changes to the source folder, by moving files to the "duplicate" folder, use this function with caution.  
+See the next 2 functions for enhancments.  
+Mandatory specify in the input config file: "sourceDirectory", "duplicatesDirectory".  
 * RECURSIVE_FIND_DUPLICATES  
-This is a utility function. Taking the source folder, it will traverse this folder and all subfolders, and find any duplicate photos (or actually any duplicate files), and list them out for user to take action on it.
-In other words, this function doesn't make any changes to the source folder, it will mot move or remove any files
-Mandatory specify in the input config file: "sourceDirectory"
+This is a utility function. Taking the source folder, it will traverse this folder and all subfolders, and find any duplicate photos (or actually any duplicate files), and list them out for user to take action on it.  
+In other words, this function doesn't make any changes to the source folder, it will not move or remove any files.  
+Mandatory specify in the input config file: "sourceDirectory".  
 * RECURSIVE_MOVE_DUPLICATES  
-This is a utitlity function, similar to the RECURSIVE_FIND_DUPLICATES, but, it make changes to the source folder by moving one of the duplicate file to the "duplicate" folder. Therefore, use this function with caution.
-Mandatory specify in the input config file: "sourceDirectory", "duplicatesDirectory"
+This is a utitlity function, similar to the RECURSIVE_FIND_DUPLICATES, but, it make changes to the source folder by moving one of the duplicate file to the "duplicate" folder. Therefore, use this function with caution.  
+Mandatory specify in the input config file: "sourceDirectory", "duplicatesDirectory".  
 
 Motivation to better organize your photo archive
 -
