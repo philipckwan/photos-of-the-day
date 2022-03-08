@@ -22,15 +22,15 @@ Terminology
 
 Some terms used in this readme, and used in the input configuration:
 
-source, source directory - the directory of the photo archive, this should point to the root directory where all sub-folders of this directory are the directories of your photos  
-destination, destination directory - the directory where the chosen photos will be placed
-duplicate, duplicates directory - the directory used by the modes "MOVE_DUPLICATES" and "RECURSIVE_MOVE_DUPLICATES" for moving duplicate photos (actually any file that are duplicate, i.e. identical in content)
-input config file - an input file for you to specify configurations when running this application. The filename is "input.txt"  
-email template file - a text file that is generated with some information about a run of this application  
-howManyPhotosToPick - a configuration value in the input config file, to specify how many photos to be picked
-specificDirectory - a configuration value in the input config file, to specify if want to specific pick a photo album directory, then the random photo picking function will only find photos in this directory, instead of also randomly pick a photo folder out of many
-renameFiles - a configuration value to specify whether to rename the files, and if so, using numbers to rename, i.e. 01.jpg, 02.jpg, so on...
-mode-the different modes that this application can operate on, see section "Examples of running this application"
+* source, source directory, sourceDirectory - the directory of the photo archive, this should point to the root directory where all sub-folders of this directory are the directories of your photos  
+* destination, destination directory, destinationDirectory - the directory where the chosen photos will be placed
+* duplicate, duplicates directory, duplicatesDirectory - the directory used by the modes "MOVE_DUPLICATES" and "RECURSIVE_MOVE_DUPLICATES" for moving duplicate photos (actually any file that are duplicate, i.e. identical in content)
+* input config file - an input file for you to specify configurations when running this application. The filename is "input.txt"  
+* email template file - a text file that is generated with some information about a run of this application  
+* howManyPhotosToPick - a configuration value in the input config file, to specify how many photos to be picked
+* specificDirectory - a configuration value in the input config file, to specify if want to specific pick a photo album directory, then the random photo picking function will only find photos in this directory, instead of also randomly pick a photo folder out of many
+* renameFiles - a configuration value to specify whether to rename the files, and if so, using numbers to rename, i.e. 01.jpg, 02.jpg, so on...
+* mode - the different modes that this application can operate on, see section "Examples of running this application"
 
 How to use this application
 -
