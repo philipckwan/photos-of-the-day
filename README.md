@@ -20,12 +20,17 @@ More explanation will be followed to explain the pre-requisites.
 Terminology
 -
 
-Some terms used in this readme:
+Some terms used in this readme, and used in the input configuration:
 
 source, source directory - the directory of the photo archive, this should point to the root directory where all sub-folders of this directory are the directories of your photos  
-destination, destination directory - the directory where the chosen photos will be placed  
+destination, destination directory - the directory where the chosen photos will be placed
+duplicate, duplicates directory - the directory used by the modes "MOVE_DUPLICATES" and "RECURSIVE_MOVE_DUPLICATES" for moving duplicate photos (actually any file that are duplicate, i.e. identical in content)
 input config file - an input file for you to specify configurations when running this application. The filename is "input.txt"  
 email template file - a text file that is generated with some information about a run of this application  
+howManyPhotosToPick - a configuration value in the input config file, to specify how many photos to be picked
+specificDirectory - a configuration value in the input config file, to specify if want to specific pick a photo album directory, then the random photo picking function will only find photos in this directory, instead of also randomly pick a photo folder out of many
+renameFiles - a configuration value to specify whether to rename the files, and if so, using numbers to rename, i.e. 01.jpg, 02.jpg, so on...
+mode-the different modes that this application can operate on, see section "Examples of running this application"
 
 How to use this application
 -
@@ -94,17 +99,22 @@ Examples of running this application
 There are 4 modes currently:
 
 * PICK_PHOTOS  
-This is the general use case for this application. Pick photos randomly from a photo folder, they are copied to the destination folder, and an email template will be generated
+This is the general use case for this application. Pick photos randomly from a photo folder, they are copied to the destination folder, and an email template will be generated.
+Mandatory specify in the input config file: "sourceDirectory", "destinationDirectory", "howManyPhotosToPick", "mode=PICK_PHOTOS".
+Optional specify in the input config file: "specificDirectory", "renameFiles=number"
 * MOVE_DUPLICATES  
 This is a utility function added, it find duplicate photos from the source folder, and move them to the "duplicate" folder.
 The limitation of this function is assuming all files in the source folder, but not traversing to subfolders.
 As this function make changes to the source folder, by moving files to the "duplicate" folder, use this function with caution.
-See the next 2 functions for enhancments
+See the next 2 functions for enhancments.
+Mandatory specify in the input config file: "sourceDirectory", "duplicatesDirectory"
 * RECURSIVE_FIND_DUPLICATES  
 This is a utility function. Taking the source folder, it will traverse this folder and all subfolders, and find any duplicate photos (or actually any duplicate files), and list them out for user to take action on it.
 In other words, this function doesn't make any changes to the source folder, it will mot move or remove any files
+Mandatory specify in the input config file: "sourceDirectory"
 * RECURSIVE_MOVE_DUPLICATES  
 This is a utitlity function, similar to the RECURSIVE_FIND_DUPLICATES, but, it make changes to the source folder by moving one of the duplicate file to the "duplicate" folder. Therefore, use this function with caution.
+Mandatory specify in the input config file: "sourceDirectory", "duplicatesDirectory"
 
 Motivation to better organize your photo archive
 -
