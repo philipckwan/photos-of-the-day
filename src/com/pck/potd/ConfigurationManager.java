@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.pck.common.PropertiesManager;
+import com.sun.tools.javac.util.StringUtils;
 
 public class ConfigurationManager {
 
@@ -15,6 +16,7 @@ public class ConfigurationManager {
 	public static final String KEYWORD_RENAME_FILES = "renameFiles";
 	public static final String KEYWORD_MODE = "mode";
 	public static final String KEYWORD_DUPLICATES_DIRECTORY = "duplicatesDirectory";
+	public static final String KEYWORD_FIND_DUPLICATES_SECOND_DIRECTORY = "findDuplicatesSecondDirectory";
 
 	//public static final String MODESTR_FIND_DUPS = "findDuplicates";
 
@@ -28,12 +30,14 @@ public class ConfigurationManager {
 	private static String renameFiles = null;
 	private static OperationMode mode = OperationMode.PICK_PHOTOS;
 	private static String duplicatesRoot = null;
+	private static String findDuplicatesSecondRoot = null;
 
 	private static File dirSourceRoot = null;
 	private static File dirDestinationRoot = null;
 	private static int howManyPhotosToPickInt = 0;
 	private static boolean howManyPhotosToPickIsPercentage = false;
 	private static File dirDuplicatesRoot = null;
+	private static File dirFindDuplicatesSecondRoot = null;
 
 	private static final String PERCENTAGE = "%";
 
@@ -48,6 +52,7 @@ public class ConfigurationManager {
 		mode = OperationMode.stringToMode(PropertiesManager.getProperty(KEYWORD_MODE));
 
 		duplicatesRoot = PropertiesManager.getProperty(KEYWORD_DUPLICATES_DIRECTORY);
+		findDuplicatesSecondRoot = PropertiesManager.getProperty(KEYWORD_FIND_DUPLICATES_SECOND_DIRECTORY);
 
 		dirSourceRoot = new File(sourceRoot);
 		// validate the source directory
@@ -91,6 +96,25 @@ public class ConfigurationManager {
 			} catch (IOException e) {
 				System.out.println("ConfigurationManager.loadPropertiesAndValidate: ERROR - IOException 3:");
 				e.printStackTrace();
+			}
+		}
+		
+		// this dirFindDuplicatesSecondRoot is optional
+		if (findDuplicatesSecondRoot == null || findDuplicatesSecondRoot.length() == 0) {
+
+		} else {
+			dirFindDuplicatesSecondRoot = new File(findDuplicatesSecondRoot);
+			if (!dirFindDuplicatesSecondRoot.isDirectory()) {
+				System.out.println("ERROR - findDuplicatesSecondDirectory is invalid!");
+				System.exit(0);
+			} else {
+				try {
+					System.out.println("ConfigurationManager.loadPropertiesAndValidate: findDuplicatesSecondDirectory: "
+							+ dirFindDuplicatesSecondRoot.getCanonicalPath() + ";");
+				} catch (IOException e) {
+					System.out.println("ConfigurationManager.loadPropertiesAndValidate: ERROR - IOException 4:");
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -142,6 +166,10 @@ public class ConfigurationManager {
 
 	public static File getDuplicatesDirectory() {
 		return dirDuplicatesRoot;
+	}
+	
+	public static File getFindDuplicatesSecondDirectory() {
+		return dirFindDuplicatesSecondRoot;
 	}
 
 	public static String getSpecificDirectory() {

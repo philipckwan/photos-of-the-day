@@ -1,4 +1,5 @@
-sourceDirectory=/Users/philip/Desktop/photos_tmp/source
+#sourceDirectory=/Volumes/WD_1TB/desktop_backups/all/_B01_my_album_new/2004_to_2010-work_US/20060428-clement bday/
+sourceDirectory=/Volumes/WD_1TB/desktop_backups/all/_B01_my_album_new/2010
 
 destinationDirectory=/Users/philip/Desktop/photos_tmp/destination
 
@@ -6,4 +7,6 @@ howManyPhotosToPick=20
 specificDirectory=
 renameFiles=number
 mode=RECURSIVE_FIND_DUPLICATES
+
 duplicatesDirectory=/Users/philip/Desktop/photos_tmp/duplicates
+#findDuplicatesSecondDirectory=/Users/philip/Desktop/photos_tmp/duplicates

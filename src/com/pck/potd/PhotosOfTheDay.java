@@ -174,6 +174,14 @@ public class PhotosOfTheDay {
 		Map<Long, List<FileNode>> fileSizeToFileListMap = new HashMap<Long, List<FileNode>>();
 		List<File> files = listFiles(ConfigurationManager.getSourceDirectory());
 		
+		
+		if (ConfigurationManager.getFindDuplicatesSecondDirectory() != null) {
+			System.out.println("PhotosOfTheDay.findDuplicatesRecursive: findDuplicatesSecondDirectory is specified, will compare these 2 directories for duplicates:");
+			System.out.println("[" + ConfigurationManager.getSourceDirectory() + "]");
+			System.out.println("[" + ConfigurationManager.getFindDuplicatesSecondDirectory() + "]");
+			files.addAll(listFiles(ConfigurationManager.getFindDuplicatesSecondDirectory()));
+		}
+		
 		System.out.println("PhotosOfTheDay.findDuplicatesRecursive: number of files:" + files.size() + ";");
 		
 		for (File aFile : files) {
@@ -204,8 +212,8 @@ public class PhotosOfTheDay {
 							fileB = fn.getFile();
 						}
 						if (!moveDuplicates) {
-							System.out.println("rm " + fileA.getPath());
-							System.out.println("rm " + fileB.getPath());
+							System.out.println("rm '" + fileA.getPath() + "'");
+							System.out.println("rm '" + fileB.getPath() + "'");
 						} else {
 							System.out.println("-- " + fileA.getPath());
 							System.out.println("-- " + fileB.getPath() + " <-- moved;");
