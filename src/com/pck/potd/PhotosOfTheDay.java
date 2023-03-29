@@ -18,7 +18,7 @@ public class PhotosOfTheDay {
 
 	private static int numPhotosPick = 1;
 
-	private static final String SIGNATURE = "PhotosOfTheDay (v0.14)";
+	private static final String SIGNATURE = "PhotosOfTheDay (v0.15)";
 
 	private static Map<String, File> mapFolderOfFolders = new HashMap<String, File>();
 	private static Map<String, File> mapFolderOfFiles = new HashMap<String, File>();
@@ -170,6 +170,7 @@ public class PhotosOfTheDay {
 	
 	private static void findDuplicatesRecursive(boolean moveDuplicates) {
 		System.out.println("PhotosOfTheDay.findDuplicatesRecursive: 1.1;");
+		int totalDuplicatesFound = 0;
 		
 		Map<Long, List<FileNode>> fileSizeToFileListMap = new HashMap<Long, List<FileNode>>();
 		List<File> files = listFiles(ConfigurationManager.getSourceDirectory());
@@ -201,8 +202,8 @@ public class PhotosOfTheDay {
 
 				for (FileNode aFileNode : fileNodeList) {
 					if (fn.getHash().equals(aFileNode.getHash())) {
-						System.out.println("-----found duplicate, listed with linux 'rm' command:");
-						
+						System.out.println("-----found duplicates, listed with linux 'rm' command:");
+						totalDuplicatesFound++;
 						File fileA, fileB;
 						if (aFileNode.getFile().getPath().compareTo(fn.getFile().getPath()) > 0) {
 							fileA = fn.getFile();
@@ -229,6 +230,7 @@ public class PhotosOfTheDay {
 			}
 			fileNodeList.add(fn);
 		}
+		System.out.println("-----Total duplicates found:" + totalDuplicatesFound + ";");
 		System.out.println("PhotosOfTheDay.findDuplicatesRecursive: END;");
 		
 	}
